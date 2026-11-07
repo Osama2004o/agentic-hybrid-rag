@@ -218,3 +218,36 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ── Project-Specific (Agentic Hybrid RAG) ──
+
+# Vector Database (ChromaDB) & SQLite
+chroma_db/
+database/chroma_db/
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+*.db
+
+# Environment files (keep .env.example tracked)
+.env.*
+!.env.example
+
+# ML / Embedding / Whisper Model Caches
+models/
+huggingface_cache/
+
+# Temporary & Uploaded Ingestion Files
+tmp/
+temp/
+uploads/
+*.tmp
+
+# IDEs & OS metadata
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
