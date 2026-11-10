@@ -44,3 +44,9 @@ SEMANTIC_ANSWER_PREFIX = "semantic_cache:answer:"
 
 # Generator defaults
 MAX_REFINEMENT_LOOPS = 4
+
+# Analyst Agent defaults
+ANALYST_MAX_FEEDBACK_LOOPS = 2      # max round-trips back to the Retriever Agent
+ANALYST_MAX_TOOL_STEPS = 6          # max tool-calling iterations per reasoning pass
+ANALYST_MAX_FOLLOW_UP_QUERIES = 2   # max follow-up queries sent per feedback loop
+ANALYST_EVIDENCE_CHAR_LIMIT = 1500  # chars of each evidence chunk shown to the LLM
