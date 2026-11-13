@@ -1,0 +1,17 @@
+langchain
+langchain-core
+langchain-community
+langchain-openai
+langchain-text-splitters
+langgraph
+chromadb
+sentence-transformers
+pypdf
+pymupdf
+docx2txt
+python-pptx
+faster-whisper
+rank-bm25
+pydantic
+python-dotenv
+pytest
