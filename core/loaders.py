@@ -15,8 +15,17 @@ from langchain_community.document_loaders import (
 from langchain_community.document_loaders.generic import GenericLoader
 from langchain_community.document_loaders.parsers import LanguageParser
 
-# Initialize Faster-Whisper once outside the branch (adjust device/compute_type as needed)
-whisper_model = WhisperModel("base", device="cpu", compute_type="int8")
+# Instead of loading the 150MB speech-to-text model on every import,
+# we use lazy initialization so it only loads when an audio file is processed.
+_whisper_model = None
+
+
+def get_whisper_model():
+    """Lazily initialize Faster-Whisper model on first use."""
+    global _whisper_model
+    if _whisper_model is None:
+        _whisper_model = WhisperModel("base", device="cpu", compute_type="int8")
+    return _whisper_model
 
 SOURCE_CODE_EXTENSIONS = {
     ".py",
@@ -41,7 +50,8 @@ SOURCE_CODE_EXTENSIONS = {
 
 def load_wav_with_whisper(file_path: str):
     """Transcribes WAV using faster-whisper, then loads via TextLoader."""
-    segments, info = whisper_model.transcribe(file_path, beam_size=5)
+    model = get_whisper_model()
+    segments, info = model.transcribe(file_path, beam_size=5)
     transcript = " ".join(segment.text.strip() for segment in segments)
 
     # Write transcript to a temp .txt file and load with TextLoader
