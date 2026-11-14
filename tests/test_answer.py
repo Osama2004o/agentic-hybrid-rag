@@ -228,6 +228,17 @@ def test_source_formatter_synchronizes_with_cited_ids():
     assert result.count("rag_overview.pdf") == 1
 
 
+def test_source_formatter_handles_out_of_range_chunk_ids_gracefully():
+    # LLM passes a single document name but cites multiple chunk IDs (e.g. E1, E2)
+    result = source_formatter.invoke({
+        "sources": "DoCrops_Documentation.docx",
+        "style": "numbered",
+        "cited_ids": ["E1", "E2"],
+    })
+    assert "[1] DoCrops_Documentation.docx" in result
+    assert "No verified sources cited" not in result
+
+
 def test_correct_pdf_page_display():
     from core.answer_tools import _normalize_single_source
     # 0-based page index from PyMuPDF

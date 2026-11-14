@@ -243,9 +243,12 @@ def source_formatter(
         for identifier in cited_ids:
             token = str(identifier).strip("[]").upper()
             idx_str = token[1:] if token.startswith("E") else token
-            if not idx_str.isdigit() or not 1 <= int(idx_str) <= len(raw_sources):
-                raise ValueError(f"Unknown cited evidence ID: {identifier}")
-            selected.append(raw_sources[int(idx_str) - 1])
+            if idx_str.isdigit() and 1 <= int(idx_str) <= len(raw_sources):
+                selected.append(raw_sources[int(idx_str) - 1])
+            elif raw_sources:
+                # If sources list is shorter than chunk indices (e.g. LLM passes document names
+                # instead of per-chunk objects), fallback to the available source rather than crashing.
+                selected.append(raw_sources[0])
         raw_sources = selected
 
     unique_sources = []
