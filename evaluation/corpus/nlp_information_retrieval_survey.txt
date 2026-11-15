@@ -1,0 +1,28 @@
+================================================================================
+COMPARATIVE ANALYSIS: DENSE, SPARSE, AND CROSS-ENCODER RETRIEVAL PARADIGMS
+================================================================================
+
+1. INTRODUCTION TO HYBRID RETRIEVAL
+In modern Retrieval-Augmented Generation (RAG) pipelines, relying solely on dense vector embeddings 
+often leads to retrieval failures when handling domain-specific jargon, exact part numbers, acronyms, 
+or rare product identifiers. Conversely, sparse keyword methods like BM25 fail when user queries 
+employ synonyms, paraphrasing, or conceptual abstractions without exact token matches.
+
+2. DENSE RETRIEVAL (BI-ENCODER)
+Dense retrieval models (such as sentence-transformers/all-MiniLM-L6-v2) encode queries and passages 
+into fixed-dimensional vector representations independently. Similarity is evaluated via dot product 
+or cosine similarity. While computationally efficient (O(d) vector distance, accelerated by HNSW indexes), 
+bi-encoders cannot capture cross-attention between specific query terms and passage tokens.
+
+3. SPARSE RETRIEVAL (BM25 OKAPI)
+BM25 relies on term frequency (TF) and inverse document frequency (IDF) with length normalization (k1=1.5, b=0.75).
+It excels at exact lexical matching, technical identifiers, function names, and rare tokens, but suffers from 
+vocabulary mismatch when synonyms or alternate phrasing are present.
+
+4. CROSS-ENCODER RERANKING
+Cross-encoders (e.g., cross-encoder/ms-marco-MiniLM-L-6-v2) process the query and candidate passage 
+jointly through multi-head self-attention layers. This allows every query token to attend directly to every 
+passage token, yielding significantly higher scoring accuracy and discrimination. Because cross-encoders are 
+computationally expensive (O(N * L^2)), they are applied in a two-stage paradigm: first retrieve top-K candidates 
+via hybrid dense+sparse retrieval, then rerank the top candidates to produce the final context window.
+Empirical literature shows cross-encoder reranking consistently improves Mean Reciprocal Rank (MRR) and NDCG.

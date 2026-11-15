@@ -1,0 +1,162 @@
+[
+  {
+    "id": "Q01",
+    "query": "What is the default REDIS_PORT configured in the infrastructure?",
+    "category": "keyword_exact",
+    "relevant_sources": ["cloud_config_reference.txt"],
+    "ground_truth_keywords": ["REDIS_PORT: 6379", "6379"],
+    "ground_truth_answer": "REDIS_PORT is 6379."
+  },
+  {
+    "id": "Q02",
+    "query": "What is the time-to-live for retrieval cache in seconds (CACHE_TTL_RETRIEVAL)?",
+    "category": "keyword_exact",
+    "relevant_sources": ["cloud_config_reference.txt"],
+    "ground_truth_keywords": ["CACHE_TTL_RETRIEVAL = 86400", "86400 seconds"],
+    "ground_truth_answer": "CACHE_TTL_RETRIEVAL is 86400 seconds (24 hours)."
+  },
+  {
+    "id": "Q03",
+    "query": "What causes the ERR_CHROMA_TIMEOUT_504 error?",
+    "category": "keyword_exact",
+    "relevant_sources": ["cloud_config_reference.txt"],
+    "ground_truth_keywords": ["ERR_CHROMA_TIMEOUT_504", "10000ms"],
+    "ground_truth_answer": "Vector database connection timed out after 10000ms."
+  },
+  {
+    "id": "Q04",
+    "query": "What error code is returned when a corrupted WAV audio header is encountered during faster-whisper transcription?",
+    "category": "keyword_exact",
+    "relevant_sources": ["cloud_config_reference.txt"],
+    "ground_truth_keywords": ["ERR_WHISPER_DECODE_FAIL_422", "WAV audio header"],
+    "ground_truth_answer": "ERR_WHISPER_DECODE_FAIL_422."
+  },
+  {
+    "id": "Q05",
+    "query": "What is the configured SEMANTIC_CACHE_THRESHOLD for vector cache hits?",
+    "category": "keyword_exact",
+    "relevant_sources": ["cloud_config_reference.txt"],
+    "ground_truth_keywords": ["SEMANTIC_CACHE_THRESHOLD = 0.80", "0.80"],
+    "ground_truth_answer": "The threshold is 0.80."
+  },
+  {
+    "id": "Q06",
+    "query": "What is the exact maximum feedback loop setting ANALYST_MAX_FEEDBACK_LOOPS?",
+    "category": "keyword_exact",
+    "relevant_sources": ["architecture_spec.txt"],
+    "ground_truth_keywords": ["ANALYST_MAX_FEEDBACK_LOOPS = 2", "2 rounds"],
+    "ground_truth_answer": "ANALYST_MAX_FEEDBACK_LOOPS is 2 rounds."
+  },
+  {
+    "id": "Q07",
+    "query": "What cross-encoder model is specified for reranking candidates?",
+    "category": "keyword_exact",
+    "relevant_sources": ["architecture_spec.txt", "cloud_config_reference.txt"],
+    "ground_truth_keywords": ["cross-encoder/ms-marco-MiniLM-L-6-v2"],
+    "ground_truth_answer": "cross-encoder/ms-marco-MiniLM-L-6-v2."
+  },
+  {
+    "id": "Q08",
+    "query": "Why do bi-encoder models fail to capture cross-attention between queries and passages?",
+    "category": "semantic_conceptual",
+    "relevant_sources": ["nlp_information_retrieval_survey.txt"],
+    "ground_truth_keywords": ["independently", "cross-attention", "bi-encoders"],
+    "ground_truth_answer": "Because queries and passages are encoded into vectors independently without joint token-to-token attention."
+  },
+  {
+    "id": "Q09",
+    "query": "Why is pure vector similarity search inadequate for domain-specific terminology or rare identifiers?",
+    "category": "semantic_conceptual",
+    "relevant_sources": ["nlp_information_retrieval_survey.txt"],
+    "ground_truth_keywords": ["jargon", "part numbers", "dense vector embeddings"],
+    "ground_truth_answer": "Dense embeddings struggle with exact lexical matches like rare part numbers, acronyms, and technical jargon where semantic meaning alone is insufficient."
+  },
+  {
+    "id": "Q10",
+    "query": "How does cross-encoder reranking improve document retrieval over single-stage bi-encoders?",
+    "category": "semantic_conceptual",
+    "relevant_sources": ["nlp_information_retrieval_survey.txt"],
+    "ground_truth_keywords": ["self-attention", "jointly", "Mean Reciprocal Rank"],
+    "ground_truth_answer": "It processes query and passage tokens jointly through multi-head self-attention, enabling token-to-token cross-matching which improves ranking precision and MRR."
+  },
+  {
+    "id": "Q11",
+    "query": "How does the system prevent hallucinated citations when generating the final response?",
+    "category": "semantic_conceptual",
+    "relevant_sources": ["architecture_spec.txt"],
+    "ground_truth_keywords": ["validate_evidence_citations", "evidence ID", "fallback"],
+    "ground_truth_answer": "The Answer Agent validates that every citation links to a verified evidence ID ([E1..En]), and applies fallback logic to reject invented citations."
+  },
+  {
+    "id": "Q12",
+    "query": "What are the three specialized agent responsibilities that replace traditional linear RAG?",
+    "category": "semantic_conceptual",
+    "relevant_sources": ["architecture_spec.txt"],
+    "ground_truth_keywords": ["Retriever Agent", "Analyst Agent", "Answer Agent"],
+    "ground_truth_answer": "Retriever Agent (gathers candidate evidence), Analyst Agent (reasons, computes, and triggers feedback loops), and Answer Agent (validates citations and formats answers)."
+  },
+  {
+    "id": "Q13",
+    "query": "What is the advantage of using a StateGraph for the retriever workflow?",
+    "category": "semantic_conceptual",
+    "relevant_sources": ["architecture_spec.txt"],
+    "ground_truth_keywords": ["LangGraph StateGraph", "sequential and branching", "Query Rewriter"],
+    "ground_truth_answer": "It enables multi-step query expansion, parallel semantic and BM25 search, metadata extraction, deduplication, and reranking in a structured graph."
+  },
+  {
+    "id": "Q14",
+    "query": "What was the percentage increase in total compute expenses between Q2 2026 and Q3 2026?",
+    "category": "multi_hop_analytical",
+    "relevant_sources": ["quarterly_financial_report.txt"],
+    "ground_truth_keywords": ["Total Compute Expenses", "+24.2%", "$325,500"],
+    "ground_truth_answer": "Total compute expenses increased by 24.2% (from $262,000 to $325,500)."
+  },
+  {
+    "id": "Q15",
+    "query": "Why did speech-to-text transcription expenses decrease in Q3 2026 and by what percentage?",
+    "category": "multi_hop_analytical",
+    "relevant_sources": ["quarterly_financial_report.txt"],
+    "ground_truth_keywords": ["Faster-Whisper CPU INT8", "-34.3%", "34.3%"],
+    "ground_truth_answer": "Expenses decreased by 34.3% due to migrating to local Faster-Whisper CPU INT8 execution."
+  },
+  {
+    "id": "Q16",
+    "query": "What was the operating margin percentage for Q3 2026?",
+    "category": "multi_hop_analytical",
+    "relevant_sources": ["quarterly_financial_report.txt"],
+    "ground_truth_keywords": ["Operating margin", "26.35%", "$1,120,000"],
+    "ground_truth_answer": "The operating margin was 26.35%."
+  },
+  {
+    "id": "Q17",
+    "query": "What was the primary root cause of the service mesh degradation incident INC-2026-8812?",
+    "category": "multi_hop_analytical",
+    "relevant_sources": ["incident_postmortem_service_mesh.txt"],
+    "ground_truth_keywords": ["audio recordings", "persistent database locks", "Faster-Whisper"],
+    "ground_truth_answer": "Simultaneous ingestion of 45 audio recordings held open persistent ChromaDB database locks during disk sync, starving concurrent read queries."
+  },
+  {
+    "id": "Q18",
+    "query": "How long was the total duration of incident INC-2026-8812 and when was it downgraded?",
+    "category": "multi_hop_analytical",
+    "relevant_sources": ["incident_postmortem_service_mesh.txt"],
+    "ground_truth_keywords": ["47 minutes", "14:49 UTC", "INC-2026-8812"],
+    "ground_truth_answer": "Total duration was 47 minutes (14:02 UTC to 14:49 UTC), downgraded at 14:49 UTC."
+  },
+  {
+    "id": "Q19",
+    "query": "What specific preventative action was recommended for decoupling database read and write access?",
+    "category": "multi_hop_analytical",
+    "relevant_sources": ["incident_postmortem_service_mesh.txt"],
+    "ground_truth_keywords": ["Decouple read and write connection pools", "Action 2"],
+    "ground_truth_answer": "Decouple read and write connection pools in the persistent client."
+  },
+  {
+    "id": "Q20",
+    "query": "What tools can the Analyst Agent call to perform math evaluations without mental calculations?",
+    "category": "multi_hop_analytical",
+    "relevant_sources": ["architecture_spec.txt"],
+    "ground_truth_keywords": ["calculator", "table_extractor", "data_analysis"],
+    "ground_truth_answer": "The calculator tool (along with table_extractor and data_analysis)."
+  }
+]

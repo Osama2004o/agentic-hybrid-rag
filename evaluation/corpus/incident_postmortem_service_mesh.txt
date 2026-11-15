@@ -1,0 +1,28 @@
+================================================================================
+INCIDENT POST-MORTEM REPORT: INC-2026-8812 (SERVICE MESH DEGRADATION)
+================================================================================
+
+1. INCIDENT DETAILS
+- Incident ID: INC-2026-8812
+- Severity: Severity-1 (High Impact)
+- Date: August 14, 2026
+- Duration: 47 minutes (14:02 UTC to 14:49 UTC)
+- Lead Incident Commander: Dr. H. Vance
+
+2. TIMELINE OF EVENTS
+- 14:02 UTC: Automated Prometheus alerts fired on endpoint error rates exceeding 2.0% threshold.
+- 14:08 UTC: Customer support received reports of intermittent HTTP 504 Gateway Timeouts during RAG query ingestion.
+- 14:15 UTC: SRE team identified connection pool exhaustion in the ChromaDB persistent client wrapper.
+- 14:26 UTC: Hotfix deployment initiated to recycle idle database worker threads and expand max_connections from 20 to 100.
+- 14:41 UTC: Error rates returned to baseline (<0.02%); connection queues cleared.
+- 14:49 UTC: Incident officially downgraded to closed status after 8 consecutive minutes of healthy health checks.
+
+3. ROOT CAUSE ANALYSIS (RCA)
+A concurrent batch ingestion job uploaded 45 audio recordings simultaneously, triggering multiple Faster-Whisper 
+transcription workers that held open persistent database locks while awaiting disk sync. This starved concurrent 
+read queries, driving request timeout cascades across downstream microservices.
+
+4. PREVENTATIVE ACTIONS & REMEDIATION
+- Action 1: Enforce asynchronous queueing (Celery / Redis Queue) for audio ingestion jobs.
+- Action 2: Decouple read and write connection pools in the persistent client.
+- Action 3: Decrease connection keep-alive timeout from 60 seconds to 15 seconds.

@@ -224,25 +224,36 @@ __marimo__/
 # Vector Database (ChromaDB) & SQLite
 chroma_db/
 database/chroma_db/
+evaluation/chroma_eval_db/
+**/chroma_eval_db/
+**/chroma_db/
 *.sqlite3
 *.sqlite3-journal
 *.sqlite3-wal
 *.sqlite3-shm
 *.db
+*.bin
+
+# Streamlit data & document uploads
+data/
+data/uploads/
+uploads/
 
 # Environment files (keep .env.example tracked)
+.env
 .env.*
 !.env.example
 
 # ML / Embedding / Whisper Model Caches
 models/
 huggingface_cache/
+.cache/
 
 # Temporary & Uploaded Ingestion Files
 tmp/
 temp/
-uploads/
 *.tmp
+
 
 # IDEs & OS metadata
 .vscode/

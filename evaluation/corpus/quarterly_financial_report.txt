@@ -1,0 +1,25 @@
+================================================================================
+FINANCIAL PERFORMANCE & CLOUD INFRASTRUCTURE EXPENDITURES (Q3 2026)
+================================================================================
+
+1. EXECUTIVE SUMMARY
+In the third quarter of 2026 (Q3 2026), total software revenue reached $4,250,000, representing 
+an 18.5% year-over-year (YoY) increase compared to Q3 2025 ($3,586,000). Operating income rose to 
+$1,120,000 with an adjusted EBITDA of $1,450,000. 
+
+2. INFRASTRUCTURE & AI INFERENCE EXPENDITURE BREAKDOWN
+The following table outlines quarterly cloud and AI compute expenses:
+
+Category                    Q2 2026 Actual    Q3 2026 Actual    Variance ($)    Variance (%)
+GPU Inference Clusters      $185,000          $240,000          +$55,000        +29.7%
+Vector DB Cloud Storage     $32,000           $41,500           +$9,500         +29.7%
+Speech-to-Text Transcription $14,000          $9,200            -$4,800         -34.3%
+Redis Cache Cluster         $8,500            $8,800            +$300           +3.5%
+Bandwidth & API Egress      $22,500           $26,000           +$3,500         +15.6%
+Total Compute Expenses      $262,000          $325,500          +$63,500        +24.2%
+
+3. FINANCIAL COMMENTARY & CALCULATIONS
+- Speech transcription expenses dropped by 34.3% following migration to local Faster-Whisper CPU INT8 execution.
+- Total cloud expenditure represented 7.66% of total revenue in Q3 ($325,500 / $4,250,000).
+- Operating margin for Q3 2026 reached 26.35% ($1,120,000 / $4,250,000).
+- Gross profit across software licenses and AI services was $3,400,000 (80.0% gross margin).

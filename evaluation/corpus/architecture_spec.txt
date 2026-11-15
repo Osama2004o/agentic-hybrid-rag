@@ -1,0 +1,35 @@
+================================================================================
+AGENTIC HYBRID RAG: TECHNICAL SYSTEM SPECIFICATION & ARCHITECTURE
+================================================================================
+
+1. SYSTEM OVERVIEW
+The Agentic Hybrid RAG system is a multi-agent, evidence-grounded document question-answering architecture. 
+Unlike linear RAG pipelines that execute a single retrieve-then-generate sequence, this system decomposes 
+the document QA lifecycle into three distinct, specialized agent roles coordinated by an Orchestrator:
+- Retriever Agent: Gathers candidate evidence chunks from persistent storage using hybrid search.
+- Analyst Agent: Interprets retrieved evidence, performs math calculations, parses tables, and triggers feedback loops.
+- Answer Agent: Formulates citation-grounded final answers, validates evidence IDs, and formats sources.
+
+2. RETRIEVER AGENT WORKFLOW (LANGGRAPH)
+The Retriever Agent is built as a LangGraph StateGraph executing 6 sequential and branching nodes:
+1. Query Rewriter: LLM node that expands the user query into retrieval-optimized variants and resolves pronouns.
+2. Semantic Search: ChromaDB vector search using sentence-transformers/all-MiniLM-L6-v2 embeddings.
+3. Keyword Search: BM25Okapi lexical matching over indexed chunk tokens.
+4. Metadata Filter: Extracts file/page constraints and applies ChromaDB where filters.
+5. Merge & Deduplication: Combines dense and sparse candidate pools by deterministic chunk IDs.
+6. Cross-Encoder Reranker: Rescores candidates with cross-encoder/ms-marco-MiniLM-L-6-v2 to select the top context.
+
+3. ANALYST AGENT & REFLECTION FEEDBACK LOOP
+The Analyst Agent is implemented using LangChain tool calling with 5 specialized tools:
+- calculator: Evaluates arithmetic and math expressions without mental calculation.
+- table_extractor: Parses markdown and text tables into structured records.
+- document_comparison: Evaluates conflicting findings across multiple sources.
+- data_analysis: Computes summaries, rankings, and statistical distributions.
+- request_more_evidence: An autonomous feedback trigger. When the initial evidence is insufficient to answer the query, the Analyst requests targeted follow-up queries from the Retriever.
+The maximum feedback loop threshold is defined by ANALYST_MAX_FEEDBACK_LOOPS = 2 rounds.
+
+4. ANSWER AGENT & GROUNDED CITATION VALIDATION
+The Answer Agent receives analysis notes and evidence labeled with evidence IDs ([E1], [E2], etc.).
+Crucially, the system enforces a strict verification check (validate_evidence_citations):
+Every factual claim must cite an existing evidence ID. If the model generates an invented citation (e.g., [E99]),
+the verification module catches the discrepancy and executes fallback formatting, guaranteeing zero hallucinated citations.

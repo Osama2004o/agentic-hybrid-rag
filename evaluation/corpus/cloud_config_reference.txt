@@ -1,0 +1,33 @@
+================================================================================
+CLOUD INFRASTRUCTURE CONFIGURATION AND PARAMETER REFERENCE
+================================================================================
+
+1. NETWORKING & PORTS
+The platform relies on several interconnected microservices and caching instances:
+- REDIS_PORT: 6379 (Used for distributed retrieval caching and semantic prompt cache)
+- CHROMA_PORT: 8000 (Local persistent vector database instance)
+- STREAMLIT_PORT: 8501 (Interactive user dashboard interface)
+- METRICS_EXPORTER_PORT: 9100 (Prometheus telemetry collector)
+
+2. CACHING STRATEGY & TIME-TO-LIVE (TTL)
+The caching subsystem optimizes recurring query latency:
+- CACHE_TTL_RETRIEVAL = 86400 seconds (24 hours for raw retrieval candidate results)
+- CACHE_TTL_RESPONSE = 43200 seconds (12 hours for finalized answer generator responses)
+- CACHE_TTL_MEMORY = 604800 seconds (7 days for conversational session memory)
+- SEMANTIC_CACHE_THRESHOLD = 0.80 (Cosine similarity cutoff for vector cache hit)
+- SEMANTIC_CACHE_KEY = "semantic_cache:prompts"
+
+3. ERROR CODES & EXCEPTIONS
+Standardized system error codes returned by the orchestrator:
+- ERR_CHROMA_TIMEOUT_504: Vector database connection timed out after 10000ms.
+- ERR_RETRIEVAL_ZERO_DOCS_404: No document chunks passed the relevance threshold.
+- ERR_CROSS_ENCODER_OOM_507: Insufficient VRAM during batch cross-encoder reranking.
+- ERR_WHISPER_DECODE_FAIL_422: Corrupted WAV audio header during faster-whisper transcription.
+
+4. INGESTION PARAMETERS
+Default chunking and embedding hyperparameters:
+- CHUNK_SIZE = 1000 characters
+- CHUNK_OVERLAP = 150 characters
+- EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+- RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+- DEFAULT_TOP_K = 5
